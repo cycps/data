@@ -1,43 +1,61 @@
+-- The Cypress Databse
+
 CREATE TABLE systems (
-  name ltree NOT NULL PRIMARY KEY,
-)
+  name ltree NOT NULL PRIMARY KEY
+);
 
 CREATE TABLE network_hosts (
   name text NOT NULL,
-  sys text REFERENCES systems NOT NULL
+  sys ltree REFERENCES systems NOT NULL,
   PRIMARY KEY (name, sys)
 );
 
 CREATE TABLE computers (
-  PRIMARY KEY (name, sys) references network_hosts(name, sys)
-  os text NOT NULL
+  name text NOT NULL,
+  sys ltree NOT NULL,
+  os text NOT NULL,
+  FOREIGN KEY (name, sys) REFERENCES network_hosts,
+  PRIMARY KEY (name, sys)
 );
 
 CREATE TABLE switches (
-  PRIMARY KEY (name, sys) references network_hosts(name, sys)
+  name text NOT NULL,
+  sys ltree NOT NULL,
   capacity numeric default 1000 NOT NULL,
-  latency numeric default 0 NOT NULL
+  latency numeric default 0 NOT NULL,
+  FOREIGN KEY (name, sys) REFERENCES network_hosts,
   PRIMARY KEY (name, sys)
 );
 
 CREATE TABLE routers (
-  PRIMARY KEY (name, sys) references network_hosts(name, sys)
-  capacity numeric default 1000 NOT NULL
+  name text NOT NULL,
+  sys ltree NOT NULL,
+  capacity numeric default 1000 NOT NULL,
+  FOREIGN KEY (name, sys) REFERENCES network_hosts,
+  PRIMARY KEY (name, sys)
 );
 
 CREATE TABLE lan_links (
   name text NOT NULL,
-  FOREIGN KEY (a_name, a_sys) REFERENCES network_hosts(name, sys)
-  FOREIGN KEY (b_name, b_sys) REFERENCES network_hosts(name, sys)
-  capacity numeric default 1000 NOT NULL
+  capacity numeric default 1000 NOT NULL,
+  a_name text NOT NULL,
+  a_sys ltree NOT NULL,
+  b_name text NOT NULL,
+  b_sys ltree NOT NULL,
+  FOREIGN KEY (a_name, a_sys) REFERENCES network_hosts(name, sys),
+  FOREIGN KEY (b_name, b_sys) REFERENCES network_hosts(name, sys),
   PRIMARY KEY (a_name, a_sys, b_name, b_sys)
 );
 
 CREATE TABLE wan_links (
   name text NOT NULL,
-  FOREIGN KEY (a_name, a_sys) REFERENCES routers(name, sys)
-  FOREIGN KEY (b_name, b_sys) REFERENCES routers(name, sys)
   capacity numeric default 1000 NOT NULL,
-  latency numeric default 7 NOT NULL
+  latency numeric default 7 NOT NULL,
+  a_name text NOT NULL,
+  a_sys ltree NOT NULL,
+  b_name text NOT NULL,
+  b_sys ltree NOT NULL,
+  FOREIGN KEY (a_name, a_sys) REFERENCES routers(name, sys),
+  FOREIGN KEY (b_name, b_sys) REFERENCES routers(name, sys),
   PRIMARY KEY (a_name, a_sys, b_name, b_sys)
 );

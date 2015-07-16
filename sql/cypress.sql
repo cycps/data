@@ -14,6 +14,16 @@ CREATE TABLE computers (
   name text NOT NULL,
   sys ltree NOT NULL,
   os text NOT NULL,
+  start_script text,
+  FOREIGN KEY (name, sys) REFERENCES network_hosts,
+  PRIMARY KEY (name, sys)
+);
+
+CREATE TABLE routers (
+  name text NOT NULL,
+  sys ltree NOT NULL,
+  capacity numeric default 1000 NOT NULL,
+  latency numeric default 0 NOT NULL,
   FOREIGN KEY (name, sys) REFERENCES network_hosts,
   PRIMARY KEY (name, sys)
 );
@@ -23,14 +33,6 @@ CREATE TABLE switches (
   sys ltree NOT NULL,
   capacity numeric default 1000 NOT NULL,
   latency numeric default 0 NOT NULL,
-  FOREIGN KEY (name, sys) REFERENCES network_hosts,
-  PRIMARY KEY (name, sys)
-);
-
-CREATE TABLE routers (
-  name text NOT NULL,
-  sys ltree NOT NULL,
-  capacity numeric default 1000 NOT NULL,
   FOREIGN KEY (name, sys) REFERENCES network_hosts,
   PRIMARY KEY (name, sys)
 );

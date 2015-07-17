@@ -5,14 +5,12 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-PGCMD="SELECT 1 FROM pg_roles WHERE rolname='root'"
+#wipe any existing data and start a new
+sudo -u postgres dropdb --if-exists cyp
+sudo -u postgres dropuser --if-exists root
 
 #create the root user if it does not exist
-#sudo -E -u postgres bash -c "psql postgres -tAc "$PGCMD" | grep -q 1 || createuser -s root"
-sudo -E -u postgres createuser -s root
-
-#wipe any existing cyp db and start a new
-dropdb cyp
+sudo -u postgres createuser -s root
 createdb cyp
 
 #install the db extensions we need
@@ -20,3 +18,4 @@ psql cyp -c 'CREATE EXTENSION ltree;'
 
 #create the databse
 psql cyp -f cypress.sql
+

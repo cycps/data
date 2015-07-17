@@ -5,9 +5,11 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+PGCMD="SELECT 1 FROM pg_roles WHERE rolname='root'"
+
 #create the root user if it does not exist
-psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='root'" | grep -q 1 ||\
-  createuser -s root
+#sudo -E -u postgres bash -c "psql postgres -tAc "$PGCMD" | grep -q 1 || createuser -s root"
+sudo -E -u postgres createuser -s root
 
 #wipe any existing cyp db and start a new
 dropdb cyp

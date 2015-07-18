@@ -17,5 +17,5 @@ createdb cyp
 psql cyp -c 'CREATE EXTENSION ltree;'
 
 #create the databse
-psql cyp -f cypress.sql
+psql cyp -f /cypress/data/sql/cypress.sql
 

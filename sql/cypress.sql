@@ -3,6 +3,7 @@
 CREATE TABLE systems (
   name ltree NOT NULL PRIMARY KEY
 );
+INSERT INTO systems VALUES ('system47');
 
 CREATE TABLE network_hosts (
   name text NOT NULL,
@@ -61,3 +62,4 @@ CREATE TABLE wan_links (
   FOREIGN KEY (b_name, b_sys) REFERENCES routers(name, sys),
   PRIMARY KEY (a_name, a_sys, b_name, b_sys)
 );
+

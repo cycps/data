@@ -7,7 +7,7 @@ INSERT INTO systems VALUES ('system47');
 
 CREATE TABLE network_hosts (
   name text NOT NULL,
-  sys ltree REFERENCES systems NOT NULL,
+  sys ltree REFERENCES systems ON DELETE CASCADE NOT NULL,
   PRIMARY KEY (name, sys)
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE computers (
   sys ltree NOT NULL,
   os text NOT NULL,
   start_script text,
-  FOREIGN KEY (name, sys) REFERENCES network_hosts,
+  FOREIGN KEY (name, sys) REFERENCES network_hosts ON DELETE CASCADE,
   PRIMARY KEY (name, sys)
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE routers (
   sys ltree NOT NULL,
   capacity numeric default 1000 NOT NULL,
   latency numeric default 0 NOT NULL,
-  FOREIGN KEY (name, sys) REFERENCES network_hosts,
+  FOREIGN KEY (name, sys) REFERENCES network_hosts ON DELETE CASCADE,
   PRIMARY KEY (name, sys)
 );
 
@@ -34,7 +34,7 @@ CREATE TABLE switches (
   sys ltree NOT NULL,
   capacity numeric default 1000 NOT NULL,
   latency numeric default 0 NOT NULL,
-  FOREIGN KEY (name, sys) REFERENCES network_hosts,
+  FOREIGN KEY (name, sys) REFERENCES network_hosts ON DELETE CASCADE,
   PRIMARY KEY (name, sys)
 );
 
@@ -45,8 +45,8 @@ CREATE TABLE lan_links (
   a_sys ltree NOT NULL,
   b_name text NOT NULL,
   b_sys ltree NOT NULL,
-  FOREIGN KEY (a_name, a_sys) REFERENCES network_hosts(name, sys),
-  FOREIGN KEY (b_name, b_sys) REFERENCES network_hosts(name, sys),
+  FOREIGN KEY (a_name, a_sys) REFERENCES network_hosts(name, sys) ON DELETE CASCADE,
+  FOREIGN KEY (b_name, b_sys) REFERENCES network_hosts(name, sys) ON DELETE CASCADE,
   PRIMARY KEY (a_name, a_sys, b_name, b_sys)
 );
 
@@ -58,8 +58,8 @@ CREATE TABLE wan_links (
   a_sys ltree NOT NULL,
   b_name text NOT NULL,
   b_sys ltree NOT NULL,
-  FOREIGN KEY (a_name, a_sys) REFERENCES routers(name, sys),
-  FOREIGN KEY (b_name, b_sys) REFERENCES routers(name, sys),
+  FOREIGN KEY (a_name, a_sys) REFERENCES routers(name, sys) ON DELETE CASCADE,
+  FOREIGN KEY (b_name, b_sys) REFERENCES routers(name, sys) ON DELETE CASCADE,
   PRIMARY KEY (a_name, a_sys, b_name, b_sys)
 );
 

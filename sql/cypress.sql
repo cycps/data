@@ -44,54 +44,29 @@ CREATE TABLE interfaces (
 CREATE TABLE computers (
   id integer PRIMARY KEY REFERENCES network_hosts ON DELETE CASCADE,
   os text NOT NULL,
-  start_script text
+  start_script text,
+  position_id integer REFERENCES positions
 );
 
-/*
+
 CREATE TABLE routers (
-  name text NOT NULL,
-  sys ltree NOT NULL,
-  capacity numeric default 1000 NOT NULL,
-  latency numeric default 0 NOT NULL,
-  FOREIGN KEY (name, sys) REFERENCES network_hosts ON DELETE CASCADE,
-  PRIMARY KEY (name, sys)
+  id integer PRIMARY KEY REFERENCES network_hosts ON DELETE CASCADE,
+  packet_conductor_id integer REFERENCES packet_conductors,
+  position_id integer REFERENCES positions
 );
 
 CREATE TABLE switches (
-  name text NOT NULL,
-  sys ltree NOT NULL,
-  capacity numeric default 1000 NOT NULL,
-  latency numeric default 0 NOT NULL,
-  FOREIGN KEY (name, sys) REFERENCES network_hosts ON DELETE CASCADE,
-  PRIMARY KEY (name, sys)
+  id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
+  packet_conductor_id integer REFERENCES packet_conductors,
+  position_id integer REFERENCES positions
 );
 
-CREATE TABLE lan_links (
-  name text NOT NULL,
-  capacity numeric default 1000 NOT NULL,
-  a_name text NOT NULL,
-  a_sys ltree NOT NULL,
-  b_name text NOT NULL,
-  b_sys ltree NOT NULL,
-  FOREIGN KEY (a_name, a_sys) REFERENCES network_hosts(name, sys) ON DELETE CASCADE,
-  FOREIGN KEY (b_name, b_sys) REFERENCES network_hosts(name, sys) ON DELETE CASCADE,
-  PRIMARY KEY (a_name, a_sys, b_name, b_sys)
-);
-
-CREATE TABLE wan_links (
-  name text NOT NULL,
-  capacity numeric default 1000 NOT NULL,
-  latency numeric default 7 NOT NULL,
-  a_name text NOT NULL,
-  a_sys ltree NOT NULL,
-  b_name text NOT NULL,
-  b_sys ltree NOT NULL,
-  FOREIGN KEY (a_name, a_sys) REFERENCES routers(name, sys) ON DELETE CASCADE,
-  FOREIGN KEY (b_name, b_sys) REFERENCES routers(name, sys) ON DELETE CASCADE,
-  PRIMARY KEY (a_name, a_sys, b_name, b_sys)
+CREATE TABLE links (
+  id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
+  packet_conductor_id integer REFERENCES packet_conductors,
+  endpoint_a_id integer REFERENCES network_hosts ON DELETE CASCADE NOT NULL,
+  endpoint_b_id integer REFERENCES network_hosts ON DELETE CASCADE NOT NULL
 );
 
 
-
-INSERT INTO systems VALUES ('system47');
-*/
+INSERT INTO designs(name) VALUES ('design47');

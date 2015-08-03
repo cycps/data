@@ -1,25 +1,53 @@
 -- The Cypress Databse
 
-CREATE TABLE systems (
-  name ltree NOT NULL PRIMARY KEY
+CREATE TABLE designs (
+  id SERIAL PRIMARY KEY,
+  name text NOT NULL
 );
-INSERT INTO systems VALUES ('system47');
+
+CREATE TABLE systems (
+  id SERIAL PRIMARY KEY,
+  name ltree NOT NULL
+);
+
+CREATE TABLE ids (
+  id SERIAL PRIMARY KEY,
+  name text NOT NULL,
+  sys_id integer REFERENCES systems ON DELETE CASCADE NOT NULL,
+  design_id integer REFERENCES designs ON DELETE CASCADE NOT NULL
+);
+
+CREATE TABLE positions (
+  id SERIAL PRIMARY KEY,
+  x float,
+  y float,
+  z float
+);
+
+CREATE TABLE packet_conductors (
+  id SERIAL PRIMARY KEY,
+  capacity integer,
+  latency integer
+);
 
 CREATE TABLE network_hosts (
-  name text NOT NULL,
-  sys ltree REFERENCES systems ON DELETE CASCADE NOT NULL,
-  PRIMARY KEY (name, sys)
+  id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE
+);
+
+CREATE TABLE interfaces (
+  id SERIAL PRIMARY KEY,
+  name text,
+  host_id integer REFERENCES network_hosts ON DELETE CASCADE NOT NULL,
+  packet_conductor_id integer REFERENCES packet_conductors
 );
 
 CREATE TABLE computers (
-  name text NOT NULL,
-  sys ltree NOT NULL,
+  id integer PRIMARY KEY REFERENCES network_hosts ON DELETE CASCADE,
   os text NOT NULL,
-  start_script text,
-  FOREIGN KEY (name, sys) REFERENCES network_hosts ON DELETE CASCADE,
-  PRIMARY KEY (name, sys)
+  start_script text
 );
 
+/*
 CREATE TABLE routers (
   name text NOT NULL,
   sys ltree NOT NULL,
@@ -63,3 +91,7 @@ CREATE TABLE wan_links (
   PRIMARY KEY (a_name, a_sys, b_name, b_sys)
 );
 
+
+
+INSERT INTO systems VALUES ('system47');
+*/

@@ -40,7 +40,8 @@ CREATE TABLE interfaces (
   id SERIAL PRIMARY KEY,
   name text,
   host_id integer REFERENCES network_hosts ON DELETE CASCADE NOT NULL,
-  packet_conductor_id integer REFERENCES packet_conductors
+  packet_conductor_id integer REFERENCES packet_conductors NOT NULL,
+  UNIQUE (name, host_id)
 );
 
 CREATE TABLE computers (
@@ -53,7 +54,7 @@ CREATE TABLE computers (
 
 CREATE TABLE routers (
   id integer PRIMARY KEY REFERENCES network_hosts ON DELETE CASCADE,
-  packet_conductor_id integer REFERENCES packet_conductors,
+  packet_conductor_id integer REFERENCES packet_conductors NOT NULL,
   position_id integer REFERENCES positions
 );
 
@@ -67,7 +68,9 @@ CREATE TABLE links (
   id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
   packet_conductor_id integer REFERENCES packet_conductors,
   endpoint_a_id integer REFERENCES network_hosts ON DELETE CASCADE NOT NULL,
-  endpoint_b_id integer REFERENCES network_hosts ON DELETE CASCADE NOT NULL
+  interface_a_id integer REFERENCES interfaces ON DELETE CASCADE NOT NULL,
+  endpoint_b_id integer REFERENCES network_hosts ON DELETE CASCADE NOT NULL,
+  interface_b_id integer REFERENCES interfaces ON DELETE CASCADE NOT NULL
 );
 
 

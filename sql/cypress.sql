@@ -2,19 +2,21 @@
 
 CREATE TABLE designs (
   id SERIAL PRIMARY KEY,
-  name text NOT NULL
+  name text UNIQUE NOT NULL
 );
 
 CREATE TABLE systems (
   id SERIAL PRIMARY KEY,
-  name ltree NOT NULL
+  design_id integer REFERENCES designs ON DELETE CASCADE NOT NULL,
+  name ltree NOT NULL,
+  UNIQUE (design_id, name)
 );
 
 CREATE TABLE ids (
   id SERIAL PRIMARY KEY,
   name text NOT NULL,
   sys_id integer REFERENCES systems ON DELETE CASCADE NOT NULL,
-  design_id integer REFERENCES designs ON DELETE CASCADE NOT NULL
+  UNIQUE (name, sys_id)
 );
 
 CREATE TABLE positions (

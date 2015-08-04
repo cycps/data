@@ -74,4 +74,8 @@ CREATE TABLE links (
 );
 
 
-INSERT INTO designs(name) VALUES ('design47');
+WITH dsg_key AS (
+  INSERT INTO designs(name) VALUES ('design47') RETURNING id
+)
+INSERT INTO systems(design_id, name) VALUES ((SELECT * from dsg_key), 'root')
+

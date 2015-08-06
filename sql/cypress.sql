@@ -1,5 +1,11 @@
 -- The Cypress Databse
 
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name text UNIQUE NOT NULL,
+  password text NOT NULL
+)
+
 CREATE TABLE designs (
   id SERIAL PRIMARY KEY,
   name text UNIQUE NOT NULL

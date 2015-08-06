@@ -15,6 +15,7 @@ createdb cyp
 
 #install the db extensions we need
 psql cyp -c 'CREATE EXTENSION ltree;'
+psql cyp -c 'CREATE EXTENSION pgcrypto;'
 
 #create the databse
 psql cyp -f $HOME/.cypress/data/sql/cypress.sql

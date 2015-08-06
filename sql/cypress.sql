@@ -3,11 +3,12 @@
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name text UNIQUE NOT NULL,
-  password text NOT NULL
-)
+  pwh text NOT NULL
+);
 
 CREATE TABLE designs (
   id SERIAL PRIMARY KEY,
+  owner integer REFERENCES users NOT NULL,
   name text UNIQUE NOT NULL
 );
 
@@ -80,8 +81,5 @@ CREATE TABLE links (
 );
 
 
-WITH dsg_key AS (
-  INSERT INTO designs(name) VALUES ('design47') RETURNING id
-)
-INSERT INTO systems(design_id, name) VALUES ((SELECT * from dsg_key), 'root')
+INSERT INTO users (name, pwh) VALUES ('murphy', crypt('muffins', gen_salt('bf')));
 

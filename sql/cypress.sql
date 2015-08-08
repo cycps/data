@@ -9,7 +9,8 @@ CREATE TABLE users (
 CREATE TABLE designs (
   id SERIAL PRIMARY KEY,
   owner integer REFERENCES users NOT NULL,
-  name text UNIQUE NOT NULL
+  name text NOT NULL,
+  UNIQUE (owner, name)
 );
 
 CREATE TABLE systems (

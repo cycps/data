@@ -67,7 +67,7 @@ CREATE TABLE models (
 );
 
 CREATE TABLE saxs (
-  id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
+  id integer PRIMARY KEY REFERENCES network_hosts ON DELETE CASCADE,
   position_id integer REFERENCES positions NOT NULL,
   sense text DEFAULT '',
   actuate text DEFAULT ''

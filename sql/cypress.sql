@@ -56,20 +56,41 @@ CREATE TABLE computers (
   id integer PRIMARY KEY REFERENCES network_hosts ON DELETE CASCADE,
   os text NOT NULL,
   start_script text,
-  position_id integer REFERENCES positions
+  position_id integer REFERENCES positions NOT NULL
 );
 
+CREATE TABLE models (
+  id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
+  position_id integer REFERENCES positions NOT NULL,
+  params text DEFAULT '',
+  equations text DEFAULT ''
+);
+
+CREATE TABLE saxs (
+  id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
+  position_id integer REFERENCES positions NOT NULL,
+  sense text DEFAULT '',
+  actuate text DEFAULT ''
+);
+
+CREATE TABLE plinks (
+  id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
+  endpoint_a_id integer REFERENCES ids ON DELETE CASCADE NOT NULL,
+  endpoint_b_id integer REFERENCES ids ON DELETE CASCADE NOT NULL,
+  epa_bindings text DEFAULT '',
+  epb_bindings text DEFAULT ''
+);
 
 CREATE TABLE routers (
   id integer PRIMARY KEY REFERENCES network_hosts ON DELETE CASCADE,
   packet_conductor_id integer REFERENCES packet_conductors NOT NULL,
-  position_id integer REFERENCES positions
+  position_id integer REFERENCES positions NOT NULL
 );
 
 CREATE TABLE switches (
   id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
   packet_conductor_id integer REFERENCES packet_conductors,
-  position_id integer REFERENCES positions
+  position_id integer REFERENCES positions NOT NULL
 );
 
 CREATE TABLE links (

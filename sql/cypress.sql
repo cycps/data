@@ -60,11 +60,20 @@ CREATE TABLE computers (
 );
 
 CREATE TABLE models (
-  id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
-  position_id integer REFERENCES positions NOT NULL,
-  params text DEFAULT '',
-  equations text DEFAULT ''
+  id SERIAL PRIMARY KEY,
+  user_id integer REFERENCES users NOT NULL,
+  name text NOT NULL,
+  equations text DEFAULT '',
+  UNIQUE (user_id, name)
 );
+
+CREATE TABLE phyos (
+  id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
+  model_id integer REFERENCES models NOT NULL,
+  position_id integer REFERENCES positions NOT NULL,
+  params text DEFAULT ''
+);
+
 
 CREATE TABLE saxs (
   id integer PRIMARY KEY REFERENCES network_hosts ON DELETE CASCADE,

@@ -13,6 +13,15 @@ CREATE TABLE designs (
   UNIQUE (owner, name)
 );
 
+CREATE TABLE sim_settings (
+  id SERIAL PRIMARY KEY,
+  design_id integer REFERENCES designs NOT NULL,
+  tbegin double precision NOT NULL,
+  tend double precision NOT NULL,
+  max_step double precision NOT NULL,
+  UNIQUE (design_id)
+);
+
 CREATE TABLE systems (
   id SERIAL PRIMARY KEY,
   design_id integer REFERENCES designs ON DELETE CASCADE NOT NULL,

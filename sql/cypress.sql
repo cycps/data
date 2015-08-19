@@ -15,7 +15,7 @@ CREATE TABLE designs (
 
 CREATE TABLE sim_settings (
   id SERIAL PRIMARY KEY,
-  design_id integer REFERENCES designs NOT NULL,
+  design_id integer REFERENCES designs ON DELETE CASCADE NOT NULL,
   tbegin double precision NOT NULL,
   tend double precision NOT NULL,
   max_step double precision NOT NULL,

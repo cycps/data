@@ -81,7 +81,8 @@ CREATE TABLE phyos (
   id integer PRIMARY KEY REFERENCES ids ON DELETE CASCADE,
   model_id integer REFERENCES models NOT NULL,
   position_id integer REFERENCES positions NOT NULL,
-  args text DEFAULT ''
+  args text DEFAULT '',
+  init text DEFAULT ''
 );
 
 

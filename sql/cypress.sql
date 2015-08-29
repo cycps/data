@@ -123,5 +123,6 @@ CREATE TABLE links (
 );
 
 
-INSERT INTO users (name, pwh) VALUES ('murphy', crypt('muffins', gen_salt('bf')));
+--INSERT INTO users (name, pwh) VALUES ('murphy', crypt('muffins', gen_salt('bf')));
 
+INSERT INTO users (name, pwh) VALUES ('murphy', '$2a$06$r4Nex9guOGyYOtDZV5mhq.xZli1nX1QOkMzRwpjMw2uGH5.899.xy');

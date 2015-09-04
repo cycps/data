@@ -74,6 +74,7 @@ CREATE TABLE models (
   name text NOT NULL,
   equations text DEFAULT '',
   params text DEFAULT '',
+  icon text DEFAULT '',
   UNIQUE (user_id, name)
 );
 
